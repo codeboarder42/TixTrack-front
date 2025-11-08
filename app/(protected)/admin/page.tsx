@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import ServiceTable from "./_components/serviceTable";
+import ServiceDialog from "./_components/serviceDialog";
 
 export default function AdminPage() {
   return (
@@ -14,13 +16,10 @@ export default function AdminPage() {
         <div className="h-[300px] w-[600px] bg-primary"></div>
       </div>
       <div className="flex flex-col gap-sm">
-        <div className="flex justify-between items-end">
-          Srevices
-          <Button>
-            <Plus />
-          </Button>
+        <div className="w-full flex justify-end items-end">
+          <ServiceDialog />
         </div>
-        <div className="h-[300px] w-[600px] bg-primary"></div>
+        <ServiceTable />
       </div>
     </div>
   );
