@@ -92,7 +92,7 @@ export default function ServiceDialog() {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-md">
           <DialogHeader>
             <DialogTitle>Nouveau service</DialogTitle>
           </DialogHeader>
