@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TixTrack Frontend
 
-## Getting Started
+Application frontend de gestion de tickets construite avec Next.js 16, TypeScript et React 19.
 
-First, run the development server:
+## Technologies utilisées
+
+- **Framework**: Next.js 16.0.1 (App Router)
+- **Language**: TypeScript 5
+- **UI**: React 19.2.0
+- **Styling**: Tailwind CSS 4 + shadcn/ui
+- **State Management**: TanStack Query 5.90.7
+- **Forms**: TanStack Form 1.23.8
+- **Tables**: TanStack Table 8.21.3
+- **HTTP Client**: Axios 1.13.2
+- **Validation**: Zod 4.1.12
+- **Icons**: Lucide React
+- **Notifications**: Sonner
+- **Theme**: next-themes
+
+## Génération du client API
+
+Le projet utilise [Orval](https://orval.dev/) pour générer automatiquement le client API à partir du Swagger de l'API backend (NestJS).
+
+Configuration dans [orval.config.ts](orval.config.ts):
+- Endpoint Swagger: `http://localhost:3000/doc-json`
+- Output: `api/endpoints/` (organisé par tags)
+- Client: react-query hooks
+- Custom instance: [api/client.ts](api/client.ts)
+
+## Prérequis
+
+- Node.js 20+
+- pnpm (recommandé)
+- Backend TixTrack en cours d'exécution sur `http://localhost:3000`
+
+## Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Développement
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Le serveur de développement démarre sur le port 3100 et génère automatiquement le client API avant de démarrer :
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm dev
+```
 
-## Learn More
+L'application sera accessible sur [http://localhost:3100](http://localhost:3100)
 
-To learn more about Next.js, take a look at the following resources:
+### Générer uniquement le client API
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm generate:api
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Structure du projet
 
-## Deploy on Vercel
+```
+tixtrack-front/
+├── app/                      # App Router Next.js
+│   ├── (protected)/         # Routes protégées
+│   │   ├── admin/          # Page d'administration (Services & Sujets)
+│   │   └── dashboard/      # Dashboard
+│   ├── layout.tsx          # Layout principal
+│   └── page.tsx            # Page d'accueil
+├── api/                     # Client API généré par Orval
+│   ├── client.ts           # Instance Axios personnalisée
+│   └── endpoints/          # Hooks react-query par tag
+│       ├── service/
+│       ├── subject/
+│       ├── ticket/
+│       └── ...
+├── components/              # Composants réutilisables
+│   └── ui/                 # Composants UI (shadcn/ui)
+├── hooks/                   # Hooks personnalisés
+├── lib/                     # Utilitaires
+└── providers/               # Providers React (Query, Theme, etc.)
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Fonctionnalités
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Gestion des Services (TanStack Table + Dialog)
+- Gestion des Sujets (TanStack Table + Form validation)
+- Validation de formulaires avec TanStack Form et Zod
+- Tables interactives avec TanStack Table
+- Client API type-safe généré automatiquement
+- Server-side rendering et data prefetching
+- Mode sombre (next-themes)
+- Notifications toast (Sonner)
+
+## Scripts disponibles
+
+- `pnpm dev` - Démarre le serveur de développement (port 3100)
+- `pnpm build` - Build de production
+- `pnpm start` - Démarre le serveur de production
+- `pnpm lint` - Linter ESLint
+- `pnpm generate:api` - Génère le client API depuis le Swagger
+
+## Build de production
+
+```bash
+pnpm build
+pnpm start
+```
