@@ -32,23 +32,34 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getServiceControllerFindAllQueryOptions } from "@/api/endpoints/service/service";
 import { useState } from "react";
+
+import { SubjectResponseDto } from "@/api/models";
+import { getServiceControllerFindAllQueryOptions } from "@/api/endpoints/service/service";
 import {
   getSubjectControllerFindAllQueryKey,
   useSubjectControllerCreate,
 } from "@/api/endpoints/subject/subject";
-import { SubjectResponseDto } from "@/api/endpoints/tixTrack.schemas";
+import { subjectControllerCreateBody } from "@/api/zod/subject/subject.zod";
 
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(5, "Title must be at least 5 characters.")
-    .max(255, "Title must be at most 32 characters."),
-  description: z
-    .string()
-    .min(10, "Description must be at least 20 characters.")
-    .max(255, "Description must be at most 100 characters."),
+// const formSchema = z.object({
+//   name: z
+//     .string()
+//     .min(5, "Title must be at least 5 characters.")
+//     .max(255, "Title must be at most 32 characters."),
+//   description: z
+//     .string()
+//     .min(10, "Description must be at least 20 characters.")
+//     .max(255, "Description must be at most 100 characters."),
+//   serviceId: z
+//     .string()
+//     .min(1, "Il faut selectionner un service")
+//     .refine((val) => val !== "default", {
+//       message: "Par défaut n'est pas autorisé",
+//     }),
+// });
+
+const formSchema = subjectControllerCreateBody.extend({
   serviceId: z
     .string()
     .min(1, "Il faut selectionner un service")
@@ -117,7 +128,7 @@ export default function SubjectDialog() {
       name: "",
       description: "",
       serviceId: "",
-    },
+    } as z.infer<typeof formSchema>,
     validationLogic: revalidateLogic(),
     validators: {
       onDynamic: formSchema,

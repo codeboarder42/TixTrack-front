@@ -4,7 +4,7 @@ import {
   getServiceControllerFindAllQueryKey,
   useServiceControllerCreate,
 } from "@/api/endpoints/service/service";
-import { ServiceResponseDto } from "@/api/endpoints/tixTrack.schemas";
+import { ServiceResponseDto } from "@/api/models";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
